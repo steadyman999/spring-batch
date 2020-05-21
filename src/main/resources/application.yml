@@ -1,7 +1,9 @@
 spring:
   profiles:
     active: local
-
+  batch:
+    job:
+      names: ${job.name:NONE} # 실행환경의 Program arguments 에 --job.name=stepNextJob 를 추가하면, stepNextJob 만 실행한다.
 ---
 spring:
   profiles: local

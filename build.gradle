@@ -1,12 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.0.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
     id 'java'
+    id 'groovy'
 }
 
-group = 'com.steadyman.tuto'
-version = '0.0.1'
-sourceCompatibility = '1.8'
+group = "${artifactGroup}"
+version = "${artifactVersion}"
+sourceCompatibility = "${javaVersion}"
 
 configurations {
     compileOnly {
@@ -32,6 +33,8 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.batch:spring-batch-test'
+    testImplementation("org.spockframework:spock-core:${spockVersion}")
+    testImplementation("org.spockframework:spock-spring:${spockVersion}")
 }
 
 test {

@@ -4,7 +4,9 @@ import com.steadyman.tuto.springbatch.entity.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
@@ -17,7 +19,9 @@ import javax.persistence.EntityManagerFactory;
 
 @Slf4j
 @Configuration
+@EnableBatchProcessing
 public class PersonJobConfiguration {
+
     private final EntityManagerFactory entityManagerFactory;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -37,7 +41,9 @@ public class PersonJobConfiguration {
                 .build();
     }
 
-    private Step personStep() {
+    @Bean
+    @JobScope
+    public Step personStep() {
         return stepBuilderFactory.get("personStep")
                 .<Person, Person>chunk(1)
                 .reader(customItemPersonReader())
@@ -46,7 +52,8 @@ public class PersonJobConfiguration {
                 .build();
     }
 
-    private JpaPagingItemReader<Person> customItemPersonReader() {
+    @Bean
+    public JpaPagingItemReader<Person> customItemPersonReader() {
         return new JpaPagingItemReaderBuilder<Person>()
                 .name("customItemPersonReader")
                 .entityManagerFactory(entityManagerFactory)
@@ -55,11 +62,13 @@ public class PersonJobConfiguration {
                 .build();
     }
 
-    private ItemProcessor<Person, Person> customItemPersonProcessor() {
+    @Bean
+    public ItemProcessor<Person, Person> customItemPersonProcessor() {
         return person -> Person.from("steadyman", person.getSex(), person.getPhone());
     }
 
-    private ItemWriter<Person> customItemPersonWriter() {
+    @Bean
+    public ItemWriter<Person> customItemPersonWriter() {
         return persons -> {
             for (Person person : persons) {
                 log.info("name = {}, sex = {}, phone = {}", person.getName(), person.getSex(), person.getPhone());

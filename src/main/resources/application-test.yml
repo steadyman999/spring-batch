@@ -2,16 +2,16 @@ spring:
   profiles: test
   datasource:
     hikari:
-      jdbc-url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      jdbc-url: jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false
       username: sa
       password:
       driver-class-name: org.h2.Driver
-    data: classpath:h2_data.sql
-    sql-script-encoding: utf-8
   jpa:
     hibernate:
       ddl-auto: create-drop
-  h2:
-    console:
-      enabled: true
-logging.level.org.springframework.batch: DEBUG
+    database-platform: h2
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+logging.level.org.springframework.batch: INFO

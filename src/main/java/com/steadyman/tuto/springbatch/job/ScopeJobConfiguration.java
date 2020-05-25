@@ -14,22 +14,24 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-public class ScopeConfiguration {
+public class ScopeJobConfiguration {
+    public static final String JOB_NAME = "scopeJob";
+
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final SimpleJobTasklet simpleJobTasklet;
 
-    public ScopeConfiguration(JobBuilderFactory jobBuilderFactory,
-                              StepBuilderFactory stepBuilderFactory,
-                              SimpleJobTasklet simpleJobTasklet) {
+    public ScopeJobConfiguration(JobBuilderFactory jobBuilderFactory,
+                                 StepBuilderFactory stepBuilderFactory,
+                                 SimpleJobTasklet simpleJobTasklet) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
         this.simpleJobTasklet = simpleJobTasklet;
     }
 
-    @Bean
+    @Bean("scopeJob")
     public Job scopeJob() {
-        return jobBuilderFactory.get("scopeJob")
+        return jobBuilderFactory.get(JOB_NAME)
                 .start(scopeStep1(null)) // null을 할당하는 이유는, Job Parameter의 할당이 어플리케이션 실행 시에 하지 않기 때문이다.
                 .next(scopeStep2())
                 .build();

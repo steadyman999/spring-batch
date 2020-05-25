@@ -1,13 +1,15 @@
 package com.steadyman.tuto.springbatch.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "MEMBER")
+@Table(name = "PERSON")
 @Getter
-public class Member {
+@NoArgsConstructor
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,15 @@ public class Member {
 
     @Column(name = "PHONE", nullable = false)
     private String phone;
+
+    private Person(String name, String sex, String phone) {
+        this.name = name;
+        this.sex = sex;
+        this.phone = phone;
+    }
+
+    public static Person from(String name, String sex, String phone) {
+        return new Person(name, sex, phone);
+    }
 
 }

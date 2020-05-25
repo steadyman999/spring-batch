@@ -1,0 +1,17 @@
+spring:
+  profiles: test
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: h2
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+logging.level.org.springframework.batch: INFO

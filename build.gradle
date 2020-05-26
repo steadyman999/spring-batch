@@ -36,7 +36,3 @@ dependencies {
     testImplementation("org.spockframework:spock-core:${spockVersion}")
     testImplementation("org.spockframework:spock-spring:${spockVersion}")
 }
-
-test {
-    useJUnitPlatform()
-}

@@ -5,22 +5,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "PAYMENT_HISTORY")
+@Table(name = "EMPLOYEE")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Payment {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SEQ")
     private Long seq;
 
-    @Column(name = "PAYMENT_METHOD")
-    private String paymentMethod;
+    @Column(name = "DEPARTMENT_SEQ")
+    private String departmentSeq;
 
-    @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "SALARY")
+    private Integer salary;
 }

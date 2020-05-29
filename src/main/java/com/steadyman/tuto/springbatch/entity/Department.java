@@ -6,31 +6,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "EMPLOYEE")
+@Table(name = "DEPARTMENT")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Employee {
+public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "DEPARTMENT_ID")
-    private Long departmentId;
-
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "SALARY")
-    private Long salary;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Employee> employeeList;
 
     @Builder
-    public Employee(Long departmentId, String name, Long salary) {
-        this.departmentId = departmentId;
+    public Department(String name, List<Employee> employeeList) {
         this.name = name;
-        this.salary = salary;
+        this.employeeList = employeeList;
     }
 }

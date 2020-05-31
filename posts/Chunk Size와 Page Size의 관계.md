@@ -46,5 +46,5 @@ private ItemWriter<Employee> printWriter() {
 ### chunk size = 3, page size = 1
 조회는 3회 발생했지만 chunk size가 3이기 때문에, chunk size만큼 데이터가 모인 후에 전달되어 writer는 1회만 실행된 것을 볼 수 있습니다. 
 ![](./images/chunk3_page1.png)
-
+## 결론
 _chunk size와 page size가 다른 경우에는 위와 같이 비효율적인 결과를 보이기 때문에, 보통은 두 값을 동일하게 설정하는 것이 좋습니다._

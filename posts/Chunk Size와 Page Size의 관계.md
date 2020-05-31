@@ -41,10 +41,10 @@ private ItemWriter<Employee> printWriter() {
 }
 ```
 ### chunk size = 1, page size = 3
-조회는 1회 발생했지만 chunk size가 1이기 때문에, processor에서 writer가 번갈아 실행되었다.  
+조회는 1회 발생했지만 chunk size가 1이기 때문에, processor에서 writer가 번갈아 실행된 것을 볼 수 있습니다.  
 ![](./images/chunk1_page3.png)
 ### chunk size = 3, page size = 1
-조회는 3회 발생했지만 chunk size가 3이기 때문에, chunk size만큼 데이터가 모인 후에 전달되어 writer는 1회만 실행되었다. 
+조회는 3회 발생했지만 chunk size가 3이기 때문에, chunk size만큼 데이터가 모인 후에 전달되어 writer는 1회만 실행된 것을 볼 수 있습니다. 
 ![](./images/chunk3_page1.png)
 
 _chunk size와 page size가 다른 경우에는 위와 같이 비효율적인 결과를 보이기 때문에, 보통은 두 값을 동일하게 설정하는 것이 좋습니다._

@@ -22,7 +22,8 @@ import javax.persistence.EntityManagerFactory;
 @Configuration
 @EnableBatchProcessing
 public class JpaSimpleJobConfiguration {
-    private final int CHUNK_SIZE = 1;
+    private final int CHUNK_SIZE = 3;
+    private final int PAGE_SIZE = 3;
 
     private final EntityManagerFactory entityManagerFactory;
     private final JobBuilderFactory jobBuilderFactory;
@@ -46,36 +47,34 @@ public class JpaSimpleJobConfiguration {
     private Step jpaSimpleStep() {
         return stepBuilderFactory.get("jpaSimpleStep")
                 .<Employee, Employee>chunk(CHUNK_SIZE)
-                .reader(employeeReader())
-                .processor(employeeProcessor())
-                .writer(employeeJpaWriter())
-//                .writer(itemWriter())
+                .reader(jpaPagingReader())
+                .processor(processor())
+                .writer(printWriter())
+                .writer(jpaWriter())
                 .build();
     }
 
-    private JpaPagingItemReader<? extends Employee> employeeReader() {
+    private JpaPagingItemReader<? extends Employee> jpaPagingReader() {
         return new JpaPagingItemReaderBuilder<Employee>()
                 .name("employeeReader")
                 .entityManagerFactory(entityManagerFactory)
-                .pageSize(CHUNK_SIZE)
+                .pageSize(PAGE_SIZE)
                 .queryString("select e from Employee e")
                 .build();
     }
 
-    private ItemProcessor<Employee, Employee> employeeProcessor() {
+    private ItemProcessor<Employee, Employee> processor() {
         return employee -> {
-            employee.setDepartmentId(4L);
+            log.info("This is processor.");
             return employee;
         };
     }
 
-    private ItemWriter<Employee> itemWriter() {
-        return employees -> {
-            employees.stream().forEach(employee -> log.info("departmentId = {}, name = {}", employee.getDepartmentId(), employee.getName()));
-        };
+    private ItemWriter<Employee> printWriter() {
+        return employees -> log.info("This is writer.");
     }
 
-    private JpaItemWriter<Employee> employeeJpaWriter() {
+    private JpaItemWriter<Employee> jpaWriter() {
         return new JpaItemWriterBuilder<Employee>()
                 .entityManagerFactory(entityManagerFactory)
                 .build();

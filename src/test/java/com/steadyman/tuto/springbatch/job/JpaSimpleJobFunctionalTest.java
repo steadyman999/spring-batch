@@ -32,7 +32,6 @@ public class JpaSimpleJobFunctionalTest {
     public void personJobTest() throws Exception {
         JobExecution result = jobLauncherTestUtils.launchJob();
         Assert.assertEquals(result.getStatus(), BatchStatus.COMPLETED);
-        employeeRepository.findAll().stream()
-                .forEach(employee -> Assert.assertEquals(employee.getDepartmentId().longValue(), 4L));
+        Assert.assertEquals(employeeRepository.findAll().size(), 3);
     }
 }
